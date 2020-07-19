@@ -1,0 +1,13 @@
+.Bar {
+  background-color: #33ffc6;
+  display: inline-block;
+  width: 30px;
+}
+
+.SelectedBar {
+  background-color: #ff8b33;
+}
+
+.Min {
+  background-color: #ff334e;
+}
