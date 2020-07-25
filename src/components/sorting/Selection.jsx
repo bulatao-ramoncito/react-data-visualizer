@@ -95,7 +95,6 @@ class Selection extends Component {
   render() {
     return (
       <div>
-        {/* <div  className={}></div> */}
         {this.state.arr.map((n) => (
           <React.Fragment key={n.value}>
             <Bar node={n} />
@@ -111,7 +110,7 @@ class Selection extends Component {
           SORT
         </button>
         <button onClick={() => window.location.reload()}>RESET</button>
-        <pre>{JSON.stringify(this.state, 2, null)}</pre>
+        {/* <pre>{JSON.stringify(this.state, 2, null)}</pre> */}
       </div>
     );
   }

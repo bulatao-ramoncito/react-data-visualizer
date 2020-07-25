@@ -1,0 +1,4 @@
+.Body {
+  display: grid;
+  place-items: center;
+}
