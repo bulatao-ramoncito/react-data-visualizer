@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./Bar.module.css";
 
-function Bar({ node }) {
+function Bar({ node, width }) {
   const { value, selected, min } = node;
 
   let barClass = [classes.Bar];
@@ -9,9 +9,10 @@ function Bar({ node }) {
   if (min) barClass.push(classes.Min);
 
   return (
-    <div style={{ height: value }} className={barClass.join(" ")}>
-      {value}
-    </div>
+    <div
+      style={{ height: value, width: width }}
+      className={barClass.join(" ")}
+    />
   );
 }
 

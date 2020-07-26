@@ -1,49 +1,30 @@
 import React, { Component } from "react";
-import Bar from "../common/bar/Bar";
+import classes from "./Selection.module.css";
+import CustomizedSlider from "./CustomizedSlider";
+import Bars from "../common/Bars";
 
 class Selection extends Component {
+  barArea = React.createRef();
+
   state = {
-    // arr: [14, 33, 27, 10, 35, 19, 42, 44],
-    // arr: [
-    //   { value: 14, selected: false },
-    //   { value: 33, selected: false },
-    //   { value: 27, selected: false },
-    //   { value: 10, selected: false },
-    //   { value: 35, selected: false },
-    //   { value: 19, selected: false },
-    //   { value: 42, selected: false },
-    //   { value: 44, selected: false },
-    // ],
-    arr: [
-      { value: 18, selected: false },
-      { value: 49, selected: false },
-      { value: 14, selected: false },
-      { value: 16, selected: false },
-      { value: 69, selected: false },
-      { value: 40, selected: false },
-      { value: 86, selected: false },
-      { value: 32, selected: false },
-      { value: 43, selected: false },
-      { value: 46, selected: false },
-      { value: 62, selected: false },
-      { value: 35, selected: false },
-      { value: 82, selected: false },
-      { value: 64, selected: false },
-      { value: 42, selected: false },
-      { value: 39, selected: false },
-      { value: 33, selected: false },
-      { value: 12, selected: false },
-      { value: 72, selected: false },
-      { value: 65, selected: false },
-    ],
+    arr: [],
+    arrSize: 0,
+    barWidth: 30,
+    sorting: false,
   };
+
+  componentDidMount() {
+    this.handleArrDataChange(null, 0);
+  }
 
   sleep = (ms) => {
     return new Promise((resolve) => setTimeout(resolve, ms));
   };
 
   doOneIteration = async (i, arr, max) => {
-    if (i === max) return;
+    if (i === 0) this.setState({ sorting: true });
+    if (i === max) return this.setState({ sorting: false });
+
     //select
     const curArr = [...arr];
     const selNode = { ...curArr[i] };
@@ -92,25 +73,69 @@ class Selection extends Component {
     );
   };
 
+  handleArrDataChange = (e, value) => {
+    const maxWidth = this.barArea.current.offsetWidth;
+    const maxHeight = 500;
+    const minHeigth = 10;
+    const percent = 1 - value / 100;
+
+    const minBarWidth = 10;
+    const maxBarWidth = 60;
+
+    const barWidth = Math.floor((maxBarWidth - minBarWidth) * percent) + 10;
+    const barCount = Math.floor(maxWidth / (barWidth + 4));
+
+    const barData = this.generateBarData(maxHeight, minHeigth, barCount);
+    this.setState({ arr: barData, arrSize: value, barWidth });
+  };
+
+  generateBarData = (maxHeight, minHeigth, barCount) => {
+    const data = [];
+    for (let i = 0; i < barCount; i++)
+      data.push({
+        value: this.getRandomNumber(maxHeight, minHeigth),
+        selected: false,
+      });
+    return data;
+  };
+
+  getRandomNumber = (max, min) => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  };
+
+  handleSliderChange = (evt, value) => {
+    const { arrSize } = this.state;
+    if (arrSize !== value) this.handleArrDataChange(null, value);
+    this.setState({ arrSize: value });
+  };
+
   render() {
     return (
-      <div>
-        {this.state.arr.map((n) => (
-          <React.Fragment key={n.value}>
-            <Bar node={n} />
-            <span> </span>
-          </React.Fragment>
-        ))}
-        <br />
-        <button
-          onClick={() =>
-            this.doOneIteration(0, this.state.arr, this.state.arr.length)
-          }
-        >
-          SORT
-        </button>
-        <button onClick={() => window.location.reload()}>RESET</button>
-        {/* <pre>{JSON.stringify(this.state, 2, null)}</pre> */}
+      <div ref={this.barArea} className={classes.Selection}>
+        <div>
+          <CustomizedSlider
+            value={this.state.arrSize}
+            onChange={this.handleSliderChange}
+            disabled={this.state.sorting}
+          />
+          <div>
+            <button
+              disabled={this.state.sorting}
+              onClick={() => {
+                this.doOneIteration(0, this.state.arr, this.state.arr.length);
+              }}
+            >
+              SORT
+            </button>
+            <button
+              disabled={this.state.sorting}
+              onClick={() => this.handleArrDataChange(null, this.state.arrSize)}
+            >
+              RESET
+            </button>
+          </div>
+        </div>
+        <Bars data={this.state.arr} width={this.state.barWidth} />
       </div>
     );
   }
