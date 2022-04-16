@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import classes from "./css/SortVisualizer.module.css";
 import Bars from "./Bars";
 import { Button } from "@mui/material";
@@ -11,11 +11,6 @@ function SortVisualizer() {
     { id: 4, value: 3 },
     { id: 5, value: 1 },
   ]);
-
-  // useEffect(() => {
-  //   const array = bars.map((bar) => bar.value);
-  //   insertionSort(array);
-  // }, []);
 
   const insertionSort = async (inputArr) => {
     let n = inputArr.length;
@@ -42,8 +37,12 @@ function SortVisualizer() {
   };
 
   const updateBar = (updatedArray) => {
-    console.log("updating bar to : ", updatedArray);
-    //TODO: add handling for setting state here
+    const sortedBars = [];
+    for (const value of updatedArray) {
+      const bar = bars.find((bar) => bar.value === value);
+      sortedBars.push(bar);
+    }
+    setBars(sortedBars);
   };
 
   const sleep = (ms) => {
