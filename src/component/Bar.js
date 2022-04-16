@@ -7,7 +7,7 @@ function Bar({ bar }) {
       style={{
         height: `${bar.value * 30}px`,
         width: "30px",
-        background: "#adf6b1",
+        background: bar.color,
         margin: "0px 8px",
         color: "#000000",
         display: "flex",
