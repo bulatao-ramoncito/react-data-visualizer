@@ -11,7 +11,7 @@ function Bars({ bars }) {
       }}
     >
       {bars.map((bar) => (
-        <Bar bar={bar} />
+        <Bar key={bar.id} bar={bar} />
       ))}
     </div>
   );
