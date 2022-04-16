@@ -1,13 +1,9 @@
-import React from "react";
-import Body from "./components/Body";
-import NavBar from "./components/layout/NavBar";
-import "./App.css";
+import SortVisualizer from "./component/SortVisualizer";
 
 function App() {
   return (
-    <div className="App">
-      <NavBar />
-      <Body />
+    <div>
+      <SortVisualizer />
     </div>
   );
 }
