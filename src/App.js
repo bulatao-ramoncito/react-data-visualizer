@@ -1,7 +1,9 @@
+import SortVisualizer from "./component/SortVisualizer";
+
 function App() {
   return (
     <div>
-      <div>React Data Visualizer</div>
+      <SortVisualizer />
     </div>
   );
 }
